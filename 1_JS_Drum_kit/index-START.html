@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS DRUM KIT</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fav.farm/🔥"/>
+</head>
+<body>
+    <div class="container">
+        <h1>Data Container</h1>
+        Data-key is the data attribute which is not the standard.
+        we use the data- attribute in the html when we need to make our own attribute. Src and class they are the standard attribute but here we are making our own attribute.
+
+        <br>
+        <hr/>
+Here using the data attribute to hookup data-key for example 65 along with the audio 65.
+    </div>
+    
+    <div class="keys">    
+        <div data-key="65" class="key">
+            <kbd>A</kbd>
+            <span class="sound">clap</span>
+        </div>
+        <div data-key="83" class="key">
+            <kbd>S</kbd>
+            <span class="sound">hihat</span>
+          </div>
+          <div data-key="68" class="key">
+            <kbd>D</kbd>
+            <span class="sound">kick</span>
+          </div>
+          <div data-key="70" class="key">
+            <kbd>F</kbd>
+            <span class="sound">openhat</span>
+          </div>
+          <div data-key="71" class="key">
+            <kbd>G</kbd>
+            <span class="sound">boom</span>
+          </div>
+          <div data-key="72" class="key">
+            <kbd>H</kbd>
+            <span class="sound">ride</span>
+          </div>
+          <div data-key="74" class="key">
+            <kbd>J</kbd>
+            <span class="sound">snare</span>
+          </div>
+          <div data-key="75" class="key">
+            <kbd>K</kbd>
+            <span class="sound">tom</span>
+          </div>
+          <div data-key="76" class="key">
+            <kbd>L</kbd>
+            <span class="sound">tink</span>
+          </div>
+    </div>
+
+    <audio data-key="65" src="sounds/clap.wav"></audio>
+    <audio data-key="83" src="sounds/hihat.wav"></audio>
+    <audio data-key="68" src="sounds/kick.wav"></audio>
+    <audio data-key="70" src="sounds/openhat.wav"></audio>
+    <audio data-key="71" src="sounds/boom.wav"></audio>
+    <audio data-key="72" src="sounds/ride.wav"></audio>
+    <audio data-key="74" src="sounds/snare.wav"></audio>
+    <audio data-key="75" src="sounds/tom.wav"></audio>
+    <audio data-key="76" src="sounds/tink.wav"></audio>
+  
+  <script>
+    // focus on listening of key up event 
+    // we are going to listen for the keydown event and when that happens we are going to run the function which will give us the event.
+
+    window.addEventListener('keydown',function(e){
+        // this gives the keyCode like if we press a in the keyboard it will give me 65 in the console
+        // console.log(e.keyCode);
+        //what we are going to find is there any audio element on the page that has the data-key of 65
+        //we are going to use the document.queryselector('') -- which is used beacuse we are only looking for one. but if we were to use it for many we would have used  the document.queryselectorAll('')
+        //we are going to listern for the audio. with the attribute selector that says data-key= 65 like 
+
+        // const audio =  document.querySelector('audio[data-key=65]')
+        //changes made in the above code are the back tick `` instead of '' and use template strings which is ${} which as e.key inside it like this 
+        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+        // console.log(audio); //just checking the data-key is correctly being extracted or not in the console. 
+        
+        //select the corresponding key element so that animation can be used 
+        const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+        // console.log(key);
+       
+        if(!audio) return ; //this will stop the execution of the function when there is not the data-key defined.
+        //this will play the audio
+        // audio.play(); //what happend with this one is that if multiple time the key is pressed in the keyboard it only plays once as the music has been playing and it is not stopping we have to remove that.
+
+        // so in order to do that firstly we have to make sure that it can be played even they has been continuously been played.
+        //revind it into the start
+        audio.currentTime=0;
+        //start the play
+        audio.play();
+
+        key.classList.add('playing'); //using the class playing
+    });
+        //transition end event 
+
+    function removeTranisition(e){
+        if (e.propertyName !== 'transform' ) return; //skip it if it is not a transform 
+        // console.log(e.propertyName);
+
+        // console.log(this);  //this is always whatever it is called against it.
+        this.classList.remove('playing');
+    }
+
+    const keys = document.querySelectorAll('.key');
+    //could have used the code below but here the keys is the array element and you cannot  listen to all of them you must loop over to each and every one which is why instead of the addEventListener we use forEach
+    // keys.addEventListener('transnitonend');
+    keys.forEach(key => key.addEventListener('transitionend',removeTranisition)); //creating the removeTransition function
+
+  </script>
+</body>
+</html>
