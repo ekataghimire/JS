@@ -1,6 +1,11 @@
 const secondHand = document.querySelector('.second-hand');
 const minHand = document.querySelector('.min-hand');
 const hourHand = document.querySelector('.hour-hand');
+
+
+const numbersContainer = document.querySelector('.numbers');
+
+
 //1.create a function setDate
 function setDate() {
     // console.log('hi'); //3.This is to check whether it is giving hi everysecond or not 
@@ -23,3 +28,4 @@ function setDate() {
 
 //2.run something everysecond - we use the setInterval 
 setInterval(setDate, 1000);
+
